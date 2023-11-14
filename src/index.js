@@ -1,24 +1,85 @@
-import axios from 'axios';
+import { getCets, getCat } from './cat-api';
+const selectEl = document.querySelector('.breed-select');
+const divEl = document.querySelector('.cat-info');
 
-axios.defaults.headers.common['x-api-key'] =
-  'live_q290z6IlfdZAVfcy9jfPcCmeSKYGI4eCA8wnwS3pYbAHXxfPjFtlBaGCoNi0ZDvn';
+selectEl.addEventListener('change', onBreedSelectChange);
 
-// URL
+window.addEventListener('DOMContentLoaded', onContentLoaded);
 
-function getCat(cat) {
-  const Base_URL = `https://api.thecatapi.com`;
-  const END_POINT = `/v1/images/search`;
-  const PARAMS = `?breed_ids=${cat}`;
-  const url = `${Base_URL}${END_POINT}${PARAMS}`;
+// selectEl.addEventListener('DOMContentLoaded', event => {
+//   console.log('DOM fully loaded and parsed');
+// });
 
-  return axios
-    .get(url)
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.error('Error fetching cat:', error);
-    });
+function onContentLoaded() {
+  getCets().then(function (response) {
+    renderMarkup(response);
+  });
 }
-getCat('beng');
-// URL
+
+function templateCats({ name, id }) {
+  return `
+  
+  <option value="${id}">${name} </option>`;
+}
+
+function templateCat(cats) {
+  const template = cats.map(templateCats).join('');
+  return template;
+}
+
+function renderMarkup(cats) {
+  const markup = templateCat(cats);
+  selectEl.insertAdjacentHTML('afterbegin', markup);
+}
+
+// function selectCat() {}
+function onBreedSelectChange() {
+  const selectedBreedId = selectEl.value;
+
+  getCat(selectedBreedId).then(function (response) {
+    // debugger;
+    renderinfoCats(response);
+  });
+}
+
+function templateDivCat(data) {
+  console.log(data);
+  return `<div class="image-container">
+    <img
+      src="${data[0].url}"
+      alt="#"
+      class="cat-image"
+    />
+  </div>
+  <div class="cat-body">
+    <h4 class="cat-name">${data[0].breeds[0].name}</h4>
+    <p class="cat-bio">
+      ${data[0].description}
+    </p>
+  </div>`;
+}
+
+// function templateDivCats(cat) {
+//   const templates = cat.map(templateDivCat).join('');
+//   return templates;
+// }
+
+function renderinfoCats(cat) {
+  const markupinfoCats = templateDivCat(cat);
+
+  divEl.insertAdjacentHTML('afterbegin', markupinfoCats);
+}
+
+// !!!!!!!!!!!!!!!!
+
+// function templateDivCats(cats) {
+//   const templates = cats.map(templateDivCat).join('');
+//   return templates;
+// }
+
+// function renderinfoCats(cats) {
+//   divEl.innerHTML = '';
+
+//   const markupinfoCats = templateDivCats(cats);
+//   divEl.insertAdjacentHTML('afterbegin', markupinfoCats);
+// }
