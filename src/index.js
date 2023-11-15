@@ -70,9 +70,10 @@ function templateDivCat(data) {
   <div class="cat-body">
     <h1 class="cat-name">${data[0].breeds[0].name}</h1>
     <ul class="cat-ul">
-  <li class="cat-li">Description: ${data[0].breeds[0].description}</li>
-  <li class="cat-li">Origin: ${data[0].breeds[0].origin}</li>
-  <li class="cat-li">Temperament: ${data[0].breeds[0].temperament}</li>
+  <li class="cat-li">
+  <p>Description: ${data[0].breeds[0].description}</p></li>
+  <li class="cat-li"><p>Origin: ${data[0].breeds[0].origin}</p></li>
+  <li class="cat-li"><p>Temperament: ${data[0].breeds[0].temperament}</p></li>
   <li class="cat-li"><a href="${data[0].breeds[0].wikipedia_url}">Wikipedia</a> </li>
   
 </ul>

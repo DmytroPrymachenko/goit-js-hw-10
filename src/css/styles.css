@@ -61,7 +61,10 @@ body {
 }
 .cat-image {
   width: 500px;
-  right: 500px;
+  border-radius: 20px;
+  box-shadow: 1px 1px 44px 11px rgba(255, 255, 255, 1);
+  -webkit-box-shadow: 1px 1px 44px 11px rgba(255, 255, 255, 1);
+  -moz-box-shadow: 1px 1px 44px 11px rgba(255, 255, 255, 1);
 }
 
 .breed-select {
@@ -72,10 +75,35 @@ body {
   display: flex;
   margin: 100px;
 }
+.cat-li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  color: #000000;
+
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
 .cat-body {
   max-width: 500px;
   padding: 20px;
   margin-left: 50px;
-  border: 2px;
-  bo
+  border-radius: 0px 0px 4px 4px;
+  background: #fff;
+  box-shadow: 0px 2px 1px 0px rgba(46, 47, 66, 0.08),
+    0px 1px 1px 0px rgba(46, 47, 66, 0.16),
+    0px 1px 6px 0px rgba(46, 47, 66, 0.08);
+}
+.cat-info {
+  max-width: 1200px;
+  display: flex;
+  padding: 50px;
+  margin: 50px;
+  border-radius: 20px;
+  box-shadow: 1px 27px 117px -16px rgba(0, 0, 0, 0.42);
+  -webkit-box-shadow: 1px 27px 117px -16px rgba(0, 0, 0, 0.42);
+  -moz-box-shadow: 1px 27px 117px -16px rgba(0, 0, 0, 0.42);
 }
