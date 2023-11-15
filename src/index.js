@@ -1,18 +1,22 @@
 import { getCets, getCat } from './cat-api';
+import SlimSelect from 'slim-select';
+import 'slim-select/dist/slimselect.css';
+
 const selectEl = document.querySelector('.breed-select');
 const divEl = document.querySelector('.cat-info');
-
+const spanLoader = document.querySelector('.loader');
 selectEl.addEventListener('change', onBreedSelectChange);
 
 window.addEventListener('DOMContentLoaded', onContentLoaded);
 
-// selectEl.addEventListener('DOMContentLoaded', event => {
-//   console.log('DOM fully loaded and parsed');
-// });
-
 function onContentLoaded() {
   getCets().then(function (response) {
     renderMarkup(response);
+    new SlimSelect({
+      select: '#single',
+    });
+    // hideLoader();
+    onBreedSelectChange();
   });
 }
 
@@ -32,42 +36,54 @@ function renderMarkup(cats) {
   selectEl.insertAdjacentHTML('afterbegin', markup);
 }
 
-// function selectCat() {}
 function onBreedSelectChange() {
   const selectedBreedId = selectEl.value;
-
-  getCat(selectedBreedId).then(function (response) {
-    // debugger;
-    renderinfoCats(response);
-  });
+  showLoader();
+  getCat(selectedBreedId)
+    .then(function (response) {
+      renderinfoCats(response);
+      // hideLoader();
+    })
+    .catch(function (error) {
+      console.error('Error fetching cat:', error);
+      hideLoader();
+    });
+}
+function showLoader() {
+  spanLoader.classList.add('loader');
+}
+function hideLoader() {
+  // spanLoader.classList.remove('loader');
 }
 
 function templateDivCat(data) {
   console.log(data);
-  return `<div class="image-container">
-    <img
+  return `<div class="container  ">
+ 
+  <div class="image-container">
+    <img 
       src="${data[0].url}"
       alt="#"
       class="cat-image"
     />
   </div>
   <div class="cat-body">
-    <h4 class="cat-name">${data[0].breeds[0].name}</h4>
-    <p class="cat-bio">
-      ${data[0].description}
-    </p>
-  </div>`;
+    <h1 class="cat-name">${data[0].breeds[0].name}</h1>
+    <ul class="cat-ul">
+  <li class="cat-li">Description: ${data[0].breeds[0].description}</li>
+  <li class="cat-li">Origin: ${data[0].breeds[0].origin}</li>
+  <li class="cat-li">Temperament: ${data[0].breeds[0].temperament}</li>
+  <li class="cat-li"><a href="${data[0].breeds[0].wikipedia_url}">Wikipedia</a> </li>
+  
+</ul>
+    
+  </div></div>`;
 }
-
-// function templateDivCats(cat) {
-//   const templates = cat.map(templateDivCat).join('');
-//   return templates;
-// }
 
 function renderinfoCats(cat) {
   const markupinfoCats = templateDivCat(cat);
 
-  divEl.insertAdjacentHTML('afterbegin', markupinfoCats);
+  divEl.innerHTML = markupinfoCats;
 }
 
 // !!!!!!!!!!!!!!!!
